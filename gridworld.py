@@ -21,20 +21,22 @@ class GridWorld:
 
         Returns tuple: (state, reward, done)
         """
+        wind = self._apply_wind()
         if self._check_move(self.state + move):
-            self.state += move + self._apply_wind()
-            if self.state[1] < 0:  # Wind moved agent below grid
-                self.state[1] = 0
-            if self.state[1] > 6:  # Wind moved agent above grid
-                self.state[1] = 6
-            if self._game_over():
-                return (self.state, 1, True)  # Reward of 1
+            self.state += move 
+        self.state += wind
+        if self.state[1] < 0:  # Wind moved agent below grid
+            self.state[1] = 0
+        if self.state[1] > 6:  # Wind moved agent above grid
+            self.state[1] = 6
+        if self._game_over():
+            return (self.state, 1, True)  # Reward of 1
         return (self.state, -1, False)  # Game not over: reward -1
 
     def reset(self):
         """Resets state to original position and returns state"""
-        self.position = np.array([3, 0])
-        return self.position
+        self.state = np.array([0, 3])
+        return self.state
 
     def _check_move(self, state):
         x, y = state
@@ -45,8 +47,8 @@ class GridWorld:
     def _apply_wind(self):
         wind = self.wind[self.state[0]]
         if self.stochastic_wind:
-            return random.choice((wind - 1, wind, wind + 1))
-        return wind
+            wind = random.choice((wind - 1, wind, wind + 1))
+        return np.array([0, wind])
 
     def _game_over(self):
         x, y = self.state
