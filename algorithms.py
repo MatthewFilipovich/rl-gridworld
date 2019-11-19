@@ -2,11 +2,11 @@ import numpy as np
 
 
 class UpdateAlgorithm:
-    def __init__(self, alpha, epsilon, gamma, grid_size, num_actions, goal_state):
+    def __init__(self, alpha=0.05, epsilon=0.01, gamma=0.5, state_space_size=(10, 7), num_actions=4, goal_state=(7, 3)):
         self.alpha = alpha
         self.epsilon = epsilon
         self.gamma = gamma
-        self.q = np.random.random(size=(*grid_size, num_actions))
+        self.q = np.random.random(size=(*state_space_size, num_actions))
         self.q[goal_state[0], goal_state[1], :] = 0
 
     def action_selection(self, state):
@@ -19,8 +19,8 @@ class UpdateAlgorithm:
 
 
 class Sarsa(UpdateAlgorithm):
-    def __init__(self, alpha, epsilon, gamma, grid_size, num_actions, goal_state):
-        super().__init__(alpha, epsilon, gamma, grid_size, num_actions, goal_state)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def update_table(self, state, action, reward, next_state, next_action):
         self.q[state[0], state[1], action] += self.alpha * (
@@ -28,17 +28,17 @@ class Sarsa(UpdateAlgorithm):
                 self.q[state[0], state[1], action])
 
 
-class Qlearning(UpdateAlgorithm):
-    def __init__(self, alpha, epsilon, gamma, grid_size, num_actions, goal_state):
-        super().__init__(alpha, epsilon, gamma, grid_size, num_actions, goal_state)
+class QLearning(UpdateAlgorithm):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class SarsaLambda(UpdateAlgorithm):
-    def __init__(self, alpha, epsilon, gamma, grid_size, num_actions, goal_state):
-        super().__init__(alpha, epsilon, gamma, grid_size, num_actions, goal_state)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class QLambda(UpdateAlgorithm):
-    def __init__(self, alpha, epsilon, gamma, grid_size, num_actions, goal_state):
-        super().__init__(alpha, epsilon, gamma, grid_size, num_actions, goal_state)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 

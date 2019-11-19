@@ -1,5 +1,5 @@
 from gridworld import GridWorld
-from algorithms import Sarsa, Qlearning, SarsaLambda, QLambda
+from algorithms import Sarsa, QLearning, SarsaLambda, QLambda
 
 alg_names = ['Sarsa',
              'Q-learning',
@@ -18,7 +18,12 @@ def run_sarsa():
     num_actions = env.num_actions
     goal_state = env.goal_state
 
-    rl = Sarsa(alpha, epsilon, gamma, grid_size, num_actions, goal_state)
+    rl = Sarsa(alpha=alpha,
+               epsilon=epsilon,
+               gamma=gamma,
+               grid_size=grid_size,
+               num_actions=num_actions,
+               goal_state=goal_state)
 
     training = []
     for _ in range(num_episodes):
