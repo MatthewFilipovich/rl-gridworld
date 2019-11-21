@@ -2,7 +2,7 @@ import numpy as np
 
 
 class UpdateAlgorithm:
-    def __init__(self, env=None, alpha=0.05, epsilon=0.01, gamma=0.5, table_init='zeros', ):
+    def __init__(self, env=None, alpha=0.05, epsilon=0.01, gamma=0.5, table_init='zeros'):
         assert env is not None
         self.env = env
         state_space_size = env.size
@@ -19,7 +19,7 @@ class UpdateAlgorithm:
 
     def action_selection(self, state, epsilon):
         # epsilon-greedy action selection from q-table
-        actions = self.q[state[0], state[1]]
+        actions = self.q[state[0], state[1], :]
         probability = np.array([epsilon/len(actions) for _ in actions])
         probability[np.argmax(actions)] += 1 - epsilon
         action = np.random.choice(len(actions), p=probability)
@@ -32,13 +32,13 @@ class Sarsa(UpdateAlgorithm):
 
     def update_table(self, state, action, reward, next_state, next_action):
         self.q[state[0], state[1], action] += self.alpha * (
-                reward + self.gamma * self.q[next_state[0], next_state[1], next_action] -
-                self.q[state[0], state[1], action])
+            reward + self.gamma * self.q[next_state[0], next_state[1], next_action] - self.q[state[0], state[1], action]
+        )
 
     def train(self, num_episodes, epsilon):
         training = []
         for i in range(1, num_episodes + 1):
-            self.epsilon = epsilon / i
+            #self.epsilon = epsilon / i
             state = self.env.reset()
             action = self.action_selection(state, self.epsilon)
             done = False
@@ -62,13 +62,13 @@ class QLearning(UpdateAlgorithm):
 
     def update_table(self, state, action, reward, next_state):
         self.q[state[0], state[1], action] += self.alpha * (
-                reward + self.gamma * max(self.q[next_state[0], next_state[1], :]) -
-                self.q[state[0], state[1], action])
+                reward + self.gamma * max(self.q[next_state[0], next_state[1], :]) - self.q[state[0], state[1], action]
+        )
 
     def train(self, num_episodes, epsilon):
         training = []
         for i in range(1, num_episodes + 1):
-            self.epsilon = epsilon / i
+            #self.epsilon = epsilon / i
             state = self.env.reset()
             done = False
             episode = []

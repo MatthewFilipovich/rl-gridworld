@@ -6,6 +6,7 @@ alg_names = ['Sarsa',
              'Q-learning',
              'Sarsa-lambda',
              'Q-lambda']
+
 algorithm = alg_names[0]
 
 
@@ -42,11 +43,11 @@ def plot_results(training):
 
 
 if __name__ == '__main__':
-    env = GridWorld(print_board=True)
+    env = GridWorld(print_board=False)
     num_episodes = 1000
     alpha = 0.5
-    epsilon = 1.0
-    gamma = 0.9
+    epsilon = 0.1
+    gamma = 1.0
 
     if algorithm is 'Sarsa':
         episodes = run_sarsa(env, num_episodes, alpha, epsilon, gamma)

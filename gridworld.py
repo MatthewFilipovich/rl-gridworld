@@ -15,7 +15,7 @@ class GridWorld:
         self.wind = np.array([0, 0, 0, 1, 1, 1, 2, 2, 1, 0])
         self._initial_state = initial_state
         self.state = np.array(initial_state)
-        self.print_board = print_board
+        self._print_grid = print_board
 
         # information about the board
         self.width = len(self.wind)
@@ -51,10 +51,10 @@ class GridWorld:
                 self.state[1] = self.height - 1
             elif self.state[1] < 0:
                 self.state[1] = 0
-        if self.print_board:
+        if self._print_grid:
             self.print_grid()
         if self._game_over():
-            if self.print_board:
+            if self._print_grid:
                 curses.nocbreak()
                 curses.echo()
                 curses.endwin()
