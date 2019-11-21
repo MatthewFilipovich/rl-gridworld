@@ -38,7 +38,7 @@ class Sarsa(UpdateAlgorithm):
     def train(self, num_episodes, epsilon):
         training = []
         for i in range(1, num_episodes + 1):
-            #self.epsilon = epsilon / i
+            self.epsilon = epsilon / i
             state = self.env.reset()
             action = self.action_selection(state, self.epsilon)
             done = False

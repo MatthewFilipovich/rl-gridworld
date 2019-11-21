@@ -43,7 +43,7 @@ def plot_results(training):
 
 
 if __name__ == '__main__':
-    env = GridWorld(print_board=False)
+    env = GridWorld(print_board=True)
     num_episodes = 1000
     alpha = 0.5
     epsilon = 0.1

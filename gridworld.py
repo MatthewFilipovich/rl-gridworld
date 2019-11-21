@@ -58,8 +58,8 @@ class GridWorld:
                 curses.nocbreak()
                 curses.echo()
                 curses.endwin()
-            return self.state, 1, True  # Reward of 1
-        return self.state, -1, False  # Game not over: reward -1
+            return self.state.copy(), 1, True  # Reward of 1
+        return self.state.copy(), -1, False  # Game not over: reward -1
 
     def print_grid(self):
         string = ''
