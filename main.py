@@ -1,5 +1,6 @@
 from gridworld import GridWorld
 from algorithms import Sarsa, QLearning, SarsaLambda, QLambda
+import math
 
 alg_names = ['Sarsa',
              'Q-learning',
@@ -8,43 +9,23 @@ alg_names = ['Sarsa',
 algorithm = alg_names[0]
 
 
-def run_sarsa():
-    env = GridWorld()
-    num_episodes = 1000
-    alpha = 0.05
-    epsilon = 0.05
-    gamma = 0.95
-    grid_size = (env.width, env.height)
-    num_actions = env.num_actions
-    goal_state = env.goal_state
-
-    rl = Sarsa(alpha=alpha,
+def run_sarsa(env, num_episodes, alpha, epsilon, gamma):
+    rl = Sarsa(env=env,
+               alpha=alpha,
                epsilon=epsilon,
                gamma=gamma,
-               grid_size=grid_size,
-               num_actions=num_actions,
-               goal_state=goal_state)
+               table_init='zeros')
 
-    training = []
-    for _ in range(num_episodes):
-        state = env.reset()
-        action = rl.action_selection(state)
-        done = False
-        episode = []
-        while not done:
-            next_state, reward, done = env.step(action)
-            next_action = rl.action_selection(next_state)  # why is action selected when in terminal state?
-            rl.update_table(state, action, reward, next_state, next_action)
-            episode.append((state, action, reward))
-            state = next_state
-            action = next_action
-        training.append(episode)
-
-    return training
+    return rl.train(num_episodes, epsilon)
 
 
-def run_qlearning():
-    raise NotImplementedError
+def run_qlearning(env, num_episodes, alpha, epsilon, gamma):
+    rl = QLearning(env=env,
+                   alpha=alpha,
+                   epsilon=epsilon,
+                   gamma=gamma,
+                   table_init='zeros')
+    return rl.train(num_episodes, epsilon)
 
 
 def run_sarsalambda():
@@ -55,11 +36,24 @@ def run_qlambda():
     raise NotImplementedError
 
 
+def plot_results(training):
+    epsiode_lengths = [len(ep) for ep in training]
+    print(epsiode_lengths)   # just printing len of episodes currently
+
+
 if __name__ == '__main__':
+    env = GridWorld(print_board=True)
+    num_episodes = 1000
+    alpha = 0.5
+    epsilon = 1.0
+    gamma = 0.9
+
     if algorithm is 'Sarsa':
-        run_sarsa()
+        episodes = run_sarsa(env, num_episodes, alpha, epsilon, gamma)
+        plot_results(episodes)
     elif algorithm is 'Q-learning':
-        run_qlearning()
+        episodes = run_qlearning(env, num_episodes, alpha, epsilon, gamma)
+        plot_results(episodes)
     elif algorithm is 'Sarsa-lambda':
         run_sarsalambda()
     elif algorithm is 'Q-lambda':
