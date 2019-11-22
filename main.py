@@ -7,6 +7,7 @@ ALG_NAMES = ['Sarsa',
              'Sarsa-lambda',
              'Q-lambda']
 
+
 def plot_results(training):
     epsiode_lengths = [len(ep) for ep in training]
     print(epsiode_lengths)  
@@ -26,12 +27,15 @@ if __name__ == '__main__':
                    table_init='zeros')
     elif algorithm is 'Q-learning':
         rl = QLearning(env=env, alpha=alpha, epsilon=epsilon,
-                   gamma=gamma, table_init='zeros')      
+                       gamma=gamma, table_init='zeros')
     elif algorithm is 'Sarsa-lambda':
-        raise NotImplementedError
+        rl = SarsaLambda(trace_decay=lam, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
+                         table_init='zeros')
     elif algorithm is 'Q-lambda':
-        rl = QLambda(lam=lam, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
-                     table_init='zeros')       
+        rl = QLambda(trace_decay=lam, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
+                     table_init='zeros')
+    else:
+        raise ValueError('Invalid Algorithm Choice')
     rl.train(num_episodes)
     rl.test()
     print('done')
