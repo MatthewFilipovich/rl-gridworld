@@ -40,10 +40,10 @@ class UpdateAlgorithm:
 
     def train(self, num_episodes, epsilon=None):
         training = []
-        for i in range(1, num_episodes + 1):
+        for t in range(1, num_episodes + 1):
             if epsilon is not None:
-                self.epsilon = epsilon / i
-            episode = self.train_episode(i)
+                self.epsilon = epsilon / t**0.3
+            episode = self.train_episode(t)
             training.append(episode)
 
 

@@ -7,6 +7,7 @@ ALG_NAMES = ['Sarsa',
              'Sarsa-lambda',
              'Q-lambda']
 
+DECAYING_EPSILON = True
 
 def plot_results(training):
     epsiode_lengths = [len(ep) for ep in training]
@@ -15,7 +16,7 @@ def plot_results(training):
 
 if __name__ == '__main__':
     env = GridWorld(print_board=False)
-    algorithm = ALG_NAMES[1]
+    algorithm = ALG_NAMES[3]
     num_episodes = 1000
     alpha = 0.4
     epsilon = 0.1
@@ -36,6 +37,9 @@ if __name__ == '__main__':
                      table_init='zeros')
     else:
         raise ValueError('Invalid Algorithm Choice')
-    rl.train(num_episodes)
+    if DECAYING_EPSILON:
+        rl.train(num_episodes, epsilon=0.9)
+    else:
+        rl.train(num_episodes)
     rl.test()
     print('done')
