@@ -81,7 +81,7 @@ class GridWorld:
     def reset(self):
         """Resets state to original position and returns state"""
         self.state = np.array(self._initial_state)
-        return self.state
+        return self.state.copy()
 
     def _check_move(self, state):
         x, y = state
