@@ -9,29 +9,29 @@ class TestStringMethods(unittest.TestCase):
         env = GridWorld()
         state = env.reset()
         state, _, _ = env.step(1)
-        self.assertTrue(np.array_equal(state,np.array([0, 4])))
+        self.assertTrue(np.array_equal(state, np.array([0, 4])))
 
     def test_move_left(self):
         env = GridWorld()
         state = env.reset()
         state, _, _ = env.step(2)
-        self.assertTrue(np.array_equal(state,np.array([0, 3]))) 
+        self.assertTrue(np.array_equal(state, np.array([0, 3])))
 
     def test_norm_wind(self):
         env = GridWorld()
         state = env.reset()
         for _ in range(4):
             state, _, _ = env.step(0)  # move right
-        self.assertTrue(np.array_equal(state,np.array([4, 4])))           
+        self.assertTrue(np.array_equal(state, np.array([4, 4])))
         for _ in range(2):
             state, _, _ = env.step(0)  # move right
-        self.assertTrue(np.array_equal(state,np.array([6, 6])))       
+        self.assertTrue(np.array_equal(state, np.array([6, 6])))
         state, _, _ = env.step(3)  # move down
-        self.assertTrue(np.array_equal(state,np.array([6, 6])))          
+        self.assertTrue(np.array_equal(state, np.array([6, 6])))
         for _ in range(5):
             state, _, _ = env.step(0)  # move right
-        self.assertTrue(np.array_equal(state,np.array([9, 6])))      
-        for _ in range(4):        
+        self.assertTrue(np.array_equal(state, np.array([9, 6])))
+        for _ in range(4):
             state, _, _ = env.step(3)  # move down
         for _ in range(2):
             state, _, done = env.step(2)  # move left
