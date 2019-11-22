@@ -33,13 +33,13 @@ def run_sarsalambda():
     raise NotImplementedError
 
 
-def run_qlambda(env, num_episodes, alpha, epsilon, gamma):
-    rl = QLearning(env=env,
+def run_qlambda(env, num_episodes, alpha, epsilon, gamma, lam):
+    rl = QLambda(env=env,
                    alpha=alpha,
                    epsilon=epsilon,
                    gamma=gamma,
                    table_init='zeros')
-    return rl.train(num_episodes, epsilon)
+    return rl.train(num_episodes, epsilon, lam)
 
 
 def plot_results(training):
@@ -48,11 +48,12 @@ def plot_results(training):
 
 
 if __name__ == '__main__':
-    env = GridWorld(print_board=True)
+    env = GridWorld(print_board=False)
     num_episodes = 1000
-    alpha = 0.5
+    alpha = 0.05
     epsilon = 0.1
-    gamma = 1.0
+    gamma = 0.5
+    lam = 0.5
 
     if algorithm is 'Sarsa':
         episodes = run_sarsa(env, num_episodes, alpha, epsilon, gamma)
@@ -63,6 +64,7 @@ if __name__ == '__main__':
     elif algorithm is 'Sarsa-lambda':
         run_sarsalambda()
     elif algorithm is 'Q-lambda':
-        run_qlambda(env, num_episodes, alpha, epsilon, gamma, )
+        episodes = run_qlambda(env, num_episodes, alpha, epsilon, gamma, lam)
+        plot_results(episodes)
     else:
         print('No Algorithm Selected')
