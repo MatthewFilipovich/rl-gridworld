@@ -93,6 +93,7 @@ class QLearning(UpdateAlgorithm):
             self.update_table(state, action, reward, next_state)
             episode.append((state, action, reward))
             state = next_state
+        print('\tTook {} moves to reach the goal'.format(len(episode)))
         return episode
 
 
@@ -122,6 +123,7 @@ class SarsaLambda(UpdateAlgorithm):
             episode.append((state, action, reward))
             state = next_state
             action = next_action
+        print('\tTook {} moves to reach the goal'.format(len(episode)))
         return episode
 
 
@@ -154,4 +156,5 @@ class QLambda(UpdateAlgorithm):
             episode.append((state, action, reward))
             state = next_state
             action = next_action
+        print('\tTook {} moves to reach the goal'.format(len(episode)))
         return episode

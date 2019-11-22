@@ -15,7 +15,7 @@ def plot_results(training):
 
 if __name__ == '__main__':
     env = GridWorld(print_board=False)
-    algorithm = ALG_NAMES[0]
+    algorithm = ALG_NAMES[1]
     num_episodes = 1000
     alpha = 0.4
     epsilon = 0.1
