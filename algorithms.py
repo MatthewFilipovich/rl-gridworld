@@ -16,6 +16,8 @@ class UpdateAlgorithm:
             self.q[goal_state[0], goal_state[1], :] = 0
         elif table_init == 'zeros':
             self.q = np.zeros(shape=(*state_space_size, num_actions))
+        self.z = np.zeros(shape=(*state_space_size, num_actions))
+
 
     def action_selection(self, state, epsilon):
         # epsilon-greedy action selection from q-table
@@ -38,7 +40,7 @@ class Sarsa(UpdateAlgorithm):
     def train(self, num_episodes, epsilon):
         training = []
         for i in range(1, num_episodes + 1):
-            self.epsilon = epsilon / i
+            #self.epsilon = epsilon / i
             state = self.env.reset()
             action = self.action_selection(state, self.epsilon)
             done = False
@@ -119,5 +121,38 @@ class QLambda(UpdateAlgorithm):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def train(self):
-        raise NotImplementedError
+    def update_table(self, state, action, reward, next_state):
+        self.q[state[0], state[1], action] += self.alpha * (
+                reward + self.gamma * max(self.q[next_state[0], next_state[1], :]) - self.q[state[0], state[1], action]
+        )
+
+    def train(self, num_episodes, epsilon, lam):
+        training = []
+        for i in range(1, num_episodes + 1):
+            #self.epsilon = epsilon / i
+            state = self.env.reset()
+            done = False
+            episode = []
+            action = self.action_selection(state, self.epsilon)
+            print('Episode {}:'.format(i))
+            while not done:
+                next_state, reward, done = self.env.step(action)
+                next_action = self.action_selection(next_state, self.epsilon)
+                a_star = np.argmax(self.q[next_state[0]][next_state[1]])
+                delta = (reward + self.gamma * self.q[next_state[0]][next_state[1]][next_action] 
+                        - self.q[state[0]][state[1]][a_star])
+                self.z[state[0]][state[1]][action] += 1
+                for i in range(self.q.shape[0]):
+                    for j in range(self.q.shape[1]):
+                        for k in range(self.q.shape[2]):
+                            self.q[i][j][k] += self.alpha*delta*self.z[i][j][k]
+                            if next_action == a_star:
+                                self.z[i][j][k] *= self.gamma * lam      
+                            else:
+                                self.z[i][j][k] = 0
+                state = next_state
+                action = next_action
+                episode.append((state, action, reward))
+            training.append(episode)
+            print('\tTook {} moves to reach the goal'.format(len(episode)))
+        return training
