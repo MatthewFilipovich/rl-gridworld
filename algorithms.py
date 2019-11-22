@@ -24,11 +24,6 @@ class UpdateAlgorithm:
         probability[np.argmax(actions)] += 1 - self.epsilon
         return np.random.choice(len(actions), p=probability)
 
-    def update_table(self, state, action, reward, next_state, next_action):
-        self.q[state[0], state[1], action] += self.alpha * (reward + self.gamma
-                * self.q[next_state[0], next_state[1], next_action] 
-                - self.q[state[0],state[1], action])
-
     def test(self):
         state = self.env.reset()
         episode = []
@@ -44,10 +39,15 @@ class Sarsa(UpdateAlgorithm):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+    def update_table(self, state, action, reward, next_state, next_action):
+        self.q[state[0], state[1], action] += self.alpha * (
+            reward + self.gamma * self.q[next_state[0], next_state[1], next_action] - self.q[state[0], state[1], action]
+        )
+
     def train(self, num_episodes):
         training = []
         for i in range(1, num_episodes + 1):
-            self.epsilon /= i
+            #self.epsilon /= i
             state = self.env.reset()
             action = self.action_selection(state)
             done = False
@@ -60,7 +60,7 @@ class Sarsa(UpdateAlgorithm):
                 self.update_table(
                     state, action, reward, next_state, next_action)
                 episode.append((state, action, reward))
-                state = next_state
+                state = next_state.copy()
                 action = next_action
             training.append(episode)
             print('\tTook {} moves to reach the goal'.format(len(episode)))
@@ -70,6 +70,11 @@ class Sarsa(UpdateAlgorithm):
 class QLearning(UpdateAlgorithm):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def update_table(self, state, action, reward, next_state):
+        self.q[state[0], state[1], action] += self.alpha * (
+                reward + self.gamma * max(self.q[next_state[0], next_state[1], :]) - self.q[state[0], state[1], action]
+        )
 
     def train(self, num_episodes):
         training = []

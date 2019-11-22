@@ -15,10 +15,10 @@ def plot_results(training):
 if __name__ == '__main__':
     env = GridWorld(print_board=False)
     algorithm = ALG_NAMES[0]
-    num_episodes = 1000
-    alpha = 0.05
-    epsilon = 0.9
-    gamma = 0.5
+    num_episodes = 500
+    alpha = 0.5
+    epsilon = 0.1
+    gamma = 1
     lam = 0.5
 
     if algorithm is 'Sarsa':
@@ -34,3 +34,4 @@ if __name__ == '__main__':
                      table_init='zeros')       
     rl.train(num_episodes)
     rl.test()
+    print('done')
