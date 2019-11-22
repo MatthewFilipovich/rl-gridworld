@@ -59,8 +59,8 @@ class Sarsa(UpdateAlgorithm):
                 next_action = self.action_selection(next_state)
                 self.update_table(
                     state, action, reward, next_state, next_action)
-                episode.append((state, action, reward))
-                state = next_state.copy()
+                episode.append((state.copy(), action, reward))
+                state = next_state
                 action = next_action
             training.append(episode)
             print('\tTook {} moves to reach the goal'.format(len(episode)))
