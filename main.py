@@ -7,15 +7,13 @@ ALG_NAMES = ['Sarsa',
              'Sarsa-lambda',
              'Q-lambda']
 
-DECAYING_EPSILON = True
-
 
 def plot_results(training):
     epsiode_lengths = [len(ep) for ep in training]
     print(epsiode_lengths)  
 
 
-def main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd):
+def main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd, decaying_epsilon):
     if algorithm is 'Sarsa':
         rl = Sarsa(env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
                    table_init='zeros')
@@ -23,14 +21,14 @@ def main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd):
         rl = QLearning(env=env, alpha=alpha, epsilon=epsilon,
                        gamma=gamma, table_init='zeros')
     elif algorithm is 'Sarsa-lambda':
-        rl = SarsaLambda(trace_decay=lam, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
+        rl = SarsaLambda(trace_decay=lambd, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
                          table_init='zeros')
     elif algorithm is 'Q-lambda':
-        rl = QLambda(trace_decay=lam, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
+        rl = QLambda(trace_decay=lambd, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
                      table_init='zeros')
     else:
         raise ValueError('Invalid Algorithm Choice')
-    if DECAYING_EPSILON:
+    if decaying_epsilon:
         rl.train(num_episodes, epsilon=0.9)
     else:
         rl.train(num_episodes)
@@ -46,5 +44,6 @@ if __name__ == '__main__':
     epsilon = 0.1
     gamma = 1
     lambd = 0.5
-    main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd)
+    decaying_epsilon = True
+    main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd, decaying_epsilon)
 
