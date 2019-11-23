@@ -1,3 +1,5 @@
+"""Written by Matthew Filipovich and Hugh Morrison"""
+
 from gridworld import GridWorld
 from algorithms import Sarsa, QLearning, SarsaLambda, QLambda
 import math
@@ -33,12 +35,13 @@ def main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd, decaying_ep
     else:
         rl.train(num_episodes)
     print('done training')
-    rl.test()
+    #rl.test()
 
 
 if __name__ == '__main__':
-    env = GridWorld(stochastic_wind=True, print_board=False)
-    algorithm = ALG_NAMES[0]
+    """Changeable algorithm parameters."""
+    env = GridWorld(stochastic_wind=False, print_board=True) #adjust wind and console print
+    algorithm = ALG_NAMES[0] #change index to choose RL algorithm
     num_episodes = 500
     alpha = 0.4
     epsilon = 0.1

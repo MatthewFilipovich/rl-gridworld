@@ -62,7 +62,7 @@ class Sarsa(UpdateAlgorithm):
         action = self.action_selection(state)
         done = False
         episode = []
-        #print('Episode {}:'.format(t))
+        print('Episode {}:'.format(t))
         while not done:
             next_state, reward, done = self.env.step(action)
             next_action = self.action_selection(next_state)
@@ -70,7 +70,7 @@ class Sarsa(UpdateAlgorithm):
             episode.append((state, action, reward))
             state = next_state
             action = next_action
-        #print('\tTook {} moves to reach the goal'.format(len(episode)))
+        print('\tTook {} moves to reach the goal'.format(len(episode)))
         return episode
 
 
@@ -87,14 +87,14 @@ class QLearning(UpdateAlgorithm):
         state = self.env.reset()
         done = False
         episode = []
-        #print('Episode {}:'.format(t))
+        print('Episode {}:'.format(t))
         while not done:
             action = self.action_selection(state)
             next_state, reward, done = self.env.step(action)
             self.update_table(state, action, reward, next_state)
             episode.append((state, action, reward))
             state = next_state
-        #print('\tTook {} moves to reach the goal'.format(len(episode)))
+        print('\tTook {} moves to reach the goal'.format(len(episode)))
         return episode
 
 
@@ -108,8 +108,7 @@ class SarsaLambda(UpdateAlgorithm):
         action = self.action_selection(state)
         done = False
         episode = []
-        #print('Episode {}:'.format(t))
-        # z = np.zeros(shape=self.q.shape)
+        print('Episode {}:'.format(t))
         while not done:
             next_state, reward, done = self.env.step(action)
             next_action = self.action_selection(next_state)
@@ -124,7 +123,7 @@ class SarsaLambda(UpdateAlgorithm):
             episode.append((state, action, reward))
             state = next_state
             action = next_action
-        #print('\tTook {} moves to reach the goal'.format(len(episode)))
+        print('\tTook {} moves to reach the goal'.format(len(episode)))
         return episode
 
 
@@ -138,7 +137,7 @@ class QLambda(UpdateAlgorithm):
         action = self.action_selection(state)
         done = False
         episode = []
-        #print('Episode {}:'.format(t))
+        print('Episode {}:'.format(t))
         while not done:
             next_state, reward, done = self.env.step(action)
             next_action = self.action_selection(next_state)
@@ -157,5 +156,5 @@ class QLambda(UpdateAlgorithm):
             episode.append((state, action, reward))
             state = next_state
             action = next_action
-        #print('\tTook {} moves to reach the goal'.format(len(episode)))
+        print('\tTook {} moves to reach the goal'.format(len(episode)))
         return episode
