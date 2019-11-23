@@ -9,20 +9,13 @@ ALG_NAMES = ['Sarsa',
 
 DECAYING_EPSILON = True
 
+
 def plot_results(training):
     epsiode_lengths = [len(ep) for ep in training]
     print(epsiode_lengths)  
 
 
-if __name__ == '__main__':
-    env = GridWorld(stochastic_wind=True, print_board=False)
-    algorithm = ALG_NAMES[1]
-    num_episodes = 500
-    alpha = 0.5
-    epsilon = 0.1
-    gamma = 0.5
-    lam = 0.5
-
+def main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd):
     if algorithm is 'Sarsa':
         rl = Sarsa(env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
                    table_init='zeros')
@@ -43,3 +36,15 @@ if __name__ == '__main__':
         rl.train(num_episodes)
     rl.test()
     print('done')
+
+
+if __name__ == '__main__':
+    env = GridWorld(print_board=False)
+    algorithm = ALG_NAMES[3]
+    num_episodes = 1000
+    alpha = 0.4
+    epsilon = 0.1
+    gamma = 1
+    lambd = 0.5
+    main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd)
+
