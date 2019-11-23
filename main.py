@@ -32,14 +32,14 @@ def main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd, decaying_ep
         rl.train(num_episodes, epsilon=0.9)
     else:
         rl.train(num_episodes)
+    print('done training')
     rl.test()
-    print('done')
 
 
 if __name__ == '__main__':
-    env = GridWorld(print_board=False)
-    algorithm = ALG_NAMES[2]
-    num_episodes = 3
+    env = GridWorld(stochastic_wind=True, print_board=False)
+    algorithm = ALG_NAMES[0]
+    num_episodes = 500
     alpha = 0.4
     epsilon = 0.1
     gamma = 1
