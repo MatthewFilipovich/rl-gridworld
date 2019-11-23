@@ -45,6 +45,7 @@ class UpdateAlgorithm:
                 self.epsilon = epsilon / t**0.3
             episode = self.train_episode(t)
             training.append(episode)
+        return training
 
 
 class Sarsa(UpdateAlgorithm):
