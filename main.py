@@ -14,16 +14,16 @@ def plot_results(training):
 
 
 def main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd, decaying_epsilon):
-    if algorithm is 'Sarsa':
+    if algorithm == 'Sarsa':
         rl = Sarsa(env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
                    table_init='zeros')
-    elif algorithm is 'Q-learning':
+    elif algorithm == 'Q-learning':
         rl = QLearning(env=env, alpha=alpha, epsilon=epsilon,
                        gamma=gamma, table_init='zeros')
-    elif algorithm is 'Sarsa-lambda':
+    elif algorithm == 'Sarsa-lambda':
         rl = SarsaLambda(trace_decay=lambd, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
                          table_init='zeros')
-    elif algorithm is 'Q-lambda':
+    elif algorithm == 'Q-lambda':
         rl = QLambda(trace_decay=lambd, env=env, alpha=alpha, epsilon=epsilon, gamma=gamma,
                      table_init='zeros')
     else:
@@ -38,12 +38,12 @@ def main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd, decaying_ep
 
 if __name__ == '__main__':
     env = GridWorld(print_board=False)
-    algorithm = ALG_NAMES[3]
-    num_episodes = 1000
+    algorithm = ALG_NAMES[2]
+    num_episodes = 3
     alpha = 0.4
     epsilon = 0.1
     gamma = 1
     lambd = 0.5
-    decaying_epsilon = True
+    decaying_epsilon = False
     main(env, algorithm, num_episodes, alpha, epsilon, gamma, lambd, decaying_epsilon)
 
