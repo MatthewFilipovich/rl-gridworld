@@ -26,7 +26,7 @@ class GridWorld:
         self.moves = np.array([[x, y] for x, y in zip([1, 0, -1, 0],
                                                       [0, 1, 0, -1])])
         if stochastic_wind:
-            self._num_actions = 8
+            self.num_actions = 8
             self.moves = np.array([[x, y] for x, y in zip(
                 [1, 1, 0, -1, -1, -1, 0, 1], [0, 1, 1, 1, 0, -1, -1, -1])])  # kings moves
         if print_board:

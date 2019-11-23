@@ -61,7 +61,7 @@ class Sarsa(UpdateAlgorithm):
         action = self.action_selection(state)
         done = False
         episode = []
-        print('Episode {}:'.format(t))
+        #print('Episode {}:'.format(t))
         while not done:
             next_state, reward, done = self.env.step(action)
             next_action = self.action_selection(next_state)
@@ -69,7 +69,7 @@ class Sarsa(UpdateAlgorithm):
             episode.append((state, action, reward))
             state = next_state
             action = next_action
-        print('\tTook {} moves to reach the goal'.format(len(episode)))
+        #print('\tTook {} moves to reach the goal'.format(len(episode)))
         return episode
 
 
@@ -144,8 +144,8 @@ class QLambda(UpdateAlgorithm):
             a_star = np.argmax(self.q[next_state[0], next_state[1], :])
             delta = (reward +
                      self.gamma *
-                     self.q[next_state[0], next_state[1], next_action] -
-                     self.q[state[0], state[1], a_star]
+                     self.q[next_state[0], next_state[1], a_star] -
+                     self.q[state[0], state[1], action]
                      )
             self.z[state[0], state[1], action] += 1
             self.q += self.alpha * delta * self.z
